@@ -23,9 +23,16 @@
       </div>
       <!--手机短信获取-->
       <div v-if="CheckCatcha==='手机验证码'">
-        <el-input class="telephone" v-if="title === '短信验证'" v-model="telephoneCaptcha" placeholder="请输入手机短信验证码"
+        <!--  count用来表示验证次数，当验证次数为0时，表示没有进行一次验证，如果次数为1的时候，表示没有进行二次认证，
+        为2的时候，验证全部通过-->
+        <el-input class="telephone" v-if="title === '短信验证'&&count===1" v-model="telephoneCaptcha" placeholder="请输入手机短信验证码"
+                  prefix-icon="el-icon-mobile" disabled clearable style="width: 200px;"></el-input>
+        <el-input class="telephone" v-if="title === '短信验证'&&count===2" v-model="telephoneCaptcha" placeholder="请输入手机短信验证码"
                   prefix-icon="el-icon-mobile" clearable style="width: 200px;"></el-input>
-        <el-button v-if="title === '短信验证'" @click="CatpchaTelephoneForLogin" type="primary" style="width: 100px;margin:-20px 20px 0px 0px " >获取验证码</el-button>
+        <el-button v-if="title === '短信验证'&&btnstr==='获取验证码'" :class="{disabled:isDisabled}" @click="CatpchaTelephoneForLogin" type="primary" style="width: 100px;margin:-20px 20px 0px 0px ">
+          {{ btnstr }}</el-button>
+        <el-button v-if="title === '短信验证'&&btnstr!=='获取验证码'" :class="{disabled:isDisabled}" @click="CatpchaTelephoneForLogin" type="primary" style="width: 100px;margin:-20px 20px 0px 0px " disabled>
+          {{ btnstr }}</el-button>
       </div>
       <el-input class="pass" v-if="title !== '短信验证'" v-model="loginAll.userPassword" placeholder="密码"
         prefix-icon="el-icon-lock" show-password type="password"></el-input>
@@ -33,7 +40,7 @@
         show-password type="password"></el-input>
       <div class="action-buttons">
         <el-button class="login-button" v-if="title === '登录'" round @click="handleLogin">登录</el-button>
-        <el-button class="login-button" v-if="title === '短信验证'" round @click="TelephoneLogin">短信登录</el-button>
+        <el-button class="login-button" v-if="title === '短信验证'&& count ===2" round @click="TelephoneLogin">短信登录</el-button>
         <el-button class="register-button" v-if="title === '注册'" round @click="ChangeRegister">注册</el-button>
       </div>
       <div style="font-size: 20px">
@@ -68,6 +75,7 @@ const loginAll = reactive({
   telephone: "",
   userPassword: ""
 });
+const count=ref(0);
 const Captcha = ref()
 const telephoneCaptcha=ref("")
 const RandomNum = ref()
@@ -83,11 +91,11 @@ const CheckNum = () => {
   if(RandomNum.value===Math.floor(Captcha.value)){
     Success("验证成功");
     CheckCatcha.value="手机验证码";
+    count.value=1;
   }else{
     refreshRandomNumber();
     Error("验证失败");
   }
-
 }
 //获取手机短信验证码
 const CatpchaTelephoneForLogin = () => {
@@ -97,6 +105,9 @@ const CatpchaTelephoneForLogin = () => {
           .then(function (response){
             if(response.data.code==="200"){
               Success(response.data.message);
+              count.value=2;
+              //倒计时
+              timer();
               console.log(response);
             }else{
               Error(response.data.message);
@@ -158,7 +169,7 @@ function Warning(str){
   })
 }
 const TelephoneLogin = () => {
-   if (telephoneCaptcha.value!==null&&telephoneCaptcha.value!==""){
+   if (codeVerification(loginAll.telephone)&&codeCaptcha(telephoneCaptcha.value)){
      axios.post("http://192.168.0.132:8888/authentication/signOnWithSMS?staffPhone="+loginAll.telephone+"&smsCode="+telephoneCaptcha.value)
      .then(function (response){
        console.log(response);
@@ -170,14 +181,32 @@ const TelephoneLogin = () => {
          Error(response.data.message);
       }
      })
-   }else if(codeVerification(loginAll.telephone)){
+   }else if(!codeVerification(loginAll.telephone)){
      Warning("手机号码格不对")
    }
-   else if(codeCaptcha(telephoneCaptcha.value)){
+   else if(!codeCaptcha(telephoneCaptcha.value)){
      Warning("验证码格式不对");
    }else {
      Warning("手机号码或者验证码不能为空");
    }
+}
+//设置定时器
+const isDisabled=ref(false);
+const btnstr=ref("获取验证码")
+function timeWait(time) {
+  if (time > 0) {
+    btnstr.value = time + "秒后点击";
+    time--;
+    setTimeout(function () {
+      timeWait(time);
+    }, 1000);
+  } else {
+    btnstr.value = "获取验证码";
+  }
+}
+const timer = () => {
+  timeWait(60)
+  isDisabled.value=true;
 }
 const ChangeWeb = () => {
   router.push("/")
@@ -206,7 +235,7 @@ ul li a{
   margin-left: 280px;
 }
 .return:hover {
-  color: red; /* 悬停时的颜色 */
+  color: deepskyblue; /* 悬停时的颜色 */
 }
 .login-page {
   display: flex;

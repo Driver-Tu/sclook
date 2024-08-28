@@ -19,13 +19,9 @@
     </div>
     <el-menu-item index="3">Info</el-menu-item>
     <el-menu-item index="4">本人</el-menu-item>
-    <el-menu-item index="5" @click="UserLogin">
+    <el-menu-item index="5" @click="dialogVisible = true">
         退出登录
     </el-menu-item>
-    <el-button plain @click="dialogVisible = true">
-      退出登录
-    </el-button>
-
     <el-dialog
         v-model="dialogVisible"
         title="Tips"
@@ -62,6 +58,7 @@ function Success(str){
     type: 'success'
   })
 }
+
 const UserLogin=()=>{
   dialogVisible.value = false;
   Success("退出成功");
