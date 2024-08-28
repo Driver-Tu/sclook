@@ -1,8 +1,7 @@
 <template>
-
-  <div class="login-page" style="background-color: wheat;">
-    <div class="login-form" style="background-color: pink;">
-      <el-button round @click="ChangeWeb" style="">返回首页</el-button>
+  <div class="login-page">
+    <div class="login-form" style="background-color: whitesmoke;">
+      <el-button round @click="ChangeWeb" style="background-color: rgba(224,204,28,0.15)">返回首页</el-button>
       <h2 class="login-title" style="color: blue;">{{ title }}</h2>
       <el-input class="telephone" v-model="loginAll.telephone" placeholder="电话号码" prefix-icon="el-icon-mobile"
         clearable></el-input>
@@ -37,13 +36,21 @@
         <el-button class="login-button" v-if="title === '短信验证'" round @click="TelephoneLogin">短信登录</el-button>
         <el-button class="register-button" v-if="title === '注册'" round @click="ChangeRegister">注册</el-button>
       </div>
-      <div>
-        <a class="return" v-if="title !== '短信验证'" style="text-decoration: none; font-size: 10px;"
-          @click="ChangeLoginMessage">短信验证登录</a>
-        <a class="return" v-if="title !== '短信验证'" style="text-decoration: none; font-size: 10px;"
-           @click="ChangeRegister">注册新账户</a>
-        <a class="return" v-if="title === '注册' || title === '短信验证'" style="text-decoration: none; font-size: 10px;"
-          @click="ChangeLogin">点击返回登录</a>
+      <div style="font-size: 20px">
+        <ul>
+          <li>
+            <a class="return" v-if="title !== '短信验证'" style=""
+               @click="ChangeLoginMessage">短信验证登录</a>
+          </li>
+          <li>
+            <a class="return" v-if="title !== '注册'" style=""
+               @click="ChangeRegister">注册新账户</a>
+          </li>
+          <li>
+            <a class="return" v-if="title === '注册' || title === '短信验证'" style=""
+               @click="ChangeLogin">点击返回登录</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -113,6 +120,7 @@ const handleLogin = () => {
     if (response.data.code === "200") {
       localStorage.setItem("token", response.data.data);
       Success(response.data.message);
+      router.push("/")
     } else {
       Error(response.data.message);
     }
@@ -157,6 +165,7 @@ const TelephoneLogin = () => {
        if(response.data.code==="200"){
          localStorage.setItem("token",response.data.data);
          Success(response.data.message);
+         router.push("/")
        }else{
          Error(response.data.message);
       }
@@ -187,17 +196,24 @@ const ChangeLoginMessage = () => {
 </script>
 
 <style scoped>
-.return {
-  margin-top: 20px;
-  margin-left: 300px;
+ul li {
+  list-style-type: none;
 }
-
+ul li a{
+  text-decoration: none;
+  font-size: 13px;
+  margin-top: 20px;
+  margin-left: 280px;
+}
+.return:hover {
+  color: red; /* 悬停时的颜色 */
+}
 .login-page {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #dcbae4;
+  background-color: rgba(138, 190, 210, 0.61);
   font-family: 'Arial', sans-serif;
 }
 
@@ -266,7 +282,7 @@ const ChangeLoginMessage = () => {
 
   .login-button,
   .register-button {
-    width: 100%;
+    width: 90%;
     margin: 5px 0;
   }
 }
