@@ -51,7 +51,7 @@
           <template #footer>
             <div class="dialog-footer">
               <el-button @click="dialogVisible = false">否</el-button>
-              <el-button type="primary" @click="UserLogin">
+              <el-button type="primary" @click="ExitLogin">
                 确定
               </el-button>
             </div>
@@ -80,15 +80,15 @@
 
 <script setup>
 import axios from "axios";
-import { reactive, ref } from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import router from '../routes';
 import { Check, Search } from '@element-plus/icons-vue'
 import { ElNotification } from 'element-plus'
 let title = ref("登录");
 const OkPassword = ref("")
 const loginAll = reactive({
-  telephone: "",
-  userPassword: ""
+  telephone: null,
+  userPassword: null
 });
 const count=ref(0);
 const Captcha = ref()
@@ -99,7 +99,9 @@ const refreshRandomNumber = () => {
   RandomNum.value = Math.floor(Math.random() * 9000) + 1000;
 }
 let CheckCaptcha=ref("验证码")
-
+onMounted(()=>{
+  refreshRandomNumber()
+})
 //判断完成之后，继续手机验证码验证
 const CheckNum = () => {
   console.log(RandomNum.value);
@@ -113,7 +115,16 @@ const CheckNum = () => {
     Error("验证失败");
   }
 }
-
+const isExit=ref(false)
+const ExitLogin=()=>{
+  isExit.value=true;
+    axios.get("http://192.168.0.132:9999/StaffOperations/staffExit?isExit="+isExit.value)
+        .then(function (response){
+        console.log(response)
+    }).catch(function (error){
+      console.log(error)
+    })
+}
 const dialogVisible=ref(false);
 //获取手机短信验证码
 const CaptchaTelephoneForLogin = () => {
@@ -143,22 +154,26 @@ const CaptchaTelephoneForLogin = () => {
 
 //账号登陆
 const handleLogin = () => {
-  axios.post ("http://192.168.0.132:8888/authentication/signON?staffAccount="+loginAll.telephone+"&password="+loginAll.userPassword)
-  .then(function (response) {
-    console.log(response);
-    if (response.data.code === "200") {
-      localStorage.setItem("Authorization-Token", response.data.data.token);
-      if (localStorage.getItem("Authorization-Token")!==null){
-        console.log(localStorage.getItem("Authorization-Token"))
-      }
-      Success(response.data.message);
-      router.push("/")
-    } else if(response.data.code==="30012"){
-      dialogVisible.value=true;
-    }else {
-      Error(response.data.message);
-    }
-  })
+  console.log(loginAll)
+  if(loginAll.telephone!=null&&loginAll.userPassword!=null){
+    axios.post ("http://192.168.0.132:8888/authentication/signON?staffAccount="+loginAll.telephone+"&password="+loginAll.userPassword)
+        .then(function (response) {
+          console.log(response);
+          if (response.data.code === "200") {
+            localStorage.setItem("Authorization-Token", response.data.data.token);
+            console.log(localStorage.getItem("Authorization-Token"))
+            Success(response.data.message);
+            router.push("/")
+          } else if(response.data.code==="30012"){
+            dialogVisible.value=true;
+          }else {
+            Error(response.data.message);
+          }
+        })
+  }
+  else{
+    Warning("请输入账号密码");
+  }
 };
 
 //手机号短信登录
