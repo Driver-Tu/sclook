@@ -10,6 +10,7 @@
           @select="handleSelect"
       >
         <el-menu-item index="1" style="font-size: 28px">富辰方舟欢迎您~</el-menu-item>
+        <el-menu-item index="2">~</el-menu-item>
         <el-menu-item index="3" style="">{{UserName}}</el-menu-item>
         <el-menu-item index="4" @click="dialogVisible = true">
           退出登录
@@ -44,19 +45,25 @@
           >
             <el-sub-menu v-for="item in data" :index="String(item.menuId)" :key="String(item.menuId)">
               <template #title>
-                <el-icon><location /></el-icon>{{item.menuName}}
+                <el-icon><Location /></el-icon>{{item.menuName}}
               </template>
-              <el-menu-item v-for="i in item.children" :key="i.menuId" :index="String(i.menuId)">{{ i.menuName}}</el-menu-item>
+              <el-menu-item v-for="i in item.children" :key="i.menuId" :index="String(i.menuId)">    {{ i.menuName}}</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-col>
       </el-row>
+    </div>
+    <div>
+      <router-view/>
     </div>
 </template>
 <script setup>
 import { ref} from 'vue'
 import router from "@/routes";
 import {ElNotification} from "element-plus";
+import {
+  Location
+} from '@element-plus/icons-vue'
 import axios from "axios";
 
 const activeIndex2 = ref('1')
@@ -118,10 +125,7 @@ const getMenuData=()=>{
       "Authorization-Token":window.localStorage.getItem("Authorization-Token")
     }}).then(function (response){
     if(response.data.code==='200'){
-      console.log(response)
       data.value=response.data.data
-      console.log(data.value)
-      Success("获取成功")
     }else {
       Warning(response.data.message);
       router.push("/");

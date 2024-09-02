@@ -6,7 +6,13 @@ const routes=[
         component:()=>import("../components/HelloLogin.vue")
     },{
         path:"/HomeAll",
-        component:()=>import("../components/HomeAll.vue")
+        component:()=>import("../components/HomeAll.vue"),
+        children:[
+            {
+                path:"/UserSelectMessage",
+                component:()=>import("../components/userSelf/UserSelectMessage.vue")
+            }
+        ]
     },
 ]
 
