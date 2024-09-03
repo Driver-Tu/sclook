@@ -99,7 +99,7 @@ onMounted(()=>{
 })
 //注册
 const Register = () => {
-  axios.post("http://localhost:8888/register/staffComeIn?staffPhone="+loginAll.telephone+"&smsCode="+telephoneCaptcha.value)
+  axios.post("http://localhost:10088/register/staffComeIn?staffPhone="+loginAll.telephone+"&smsCode="+telephoneCaptcha.value)
       .then(function(response){
         if (response.data.code==="200"){
           Success("注册成功,请继续登录");
@@ -128,7 +128,7 @@ const dialogVisible=ref(false);
 //获取手机短信验证码
 const CaptchaTelephoneForLogin = () => {
     if(codeVerification(loginAll.telephone)===true){
-      axios.get("http://localhost:8888/authentication/getVerificationCode?staffPhone="+loginAll.telephone+"&isSend=true")
+      axios.get("http://localhost:10088/authentication/getVerificationCode?staffPhone="+loginAll.telephone+"&isSend=true")
           .then(function (response){
             if(response.data.code==="200"){
               Success(response.data.message);
@@ -149,7 +149,7 @@ const CaptchaTelephoneForLogin = () => {
 //账号登陆
 const handleLogin = () => {
   if(loginAll.telephone!=null&&loginAll.userPassword!=null){
-    axios.post ("http://localhost:8888/authentication/signON?staffAccount="+loginAll.telephone+"&password="+loginAll.userPassword)
+    axios.post ("http://localhost:10088/authentication/signON?staffAccount="+loginAll.telephone+"&password="+loginAll.userPassword)
         .then(function (response) {
           if (response.data.code === "200") {
             localStorage.setItem("Authorization-Token", response.data.data.token);
@@ -181,7 +181,7 @@ function codeCaptcha(code){
 //手机电话登录
 const TelephoneLogin = () => {
    if (codeVerification(loginAll.telephone)&&codeCaptcha(telephoneCaptcha.value)){
-     axios.post("http://localhost:8888/authentication/signOnWithSMS?staffPhone="+loginAll.telephone+"&smsCode="+telephoneCaptcha.value)
+     axios.post("http://localhost:10088/authentication/signOnWithSMS?staffPhone="+loginAll.telephone+"&smsCode="+telephoneCaptcha.value)
      .then(function (response){
        if(response.data.code==="200"){
          localStorage.setItem("Authorization-Token",response.data.data.token);
