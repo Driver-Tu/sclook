@@ -33,8 +33,7 @@
                 @select="handleSelect"
             >
               <el-menu-item index="1" style="font-size: 28px">富辰方舟欢迎您~</el-menu-item>
-              <el-menu-item index="2">~</el-menu-item>
-              <el-menu-item index="3" style="">{{UserName}}</el-menu-item>
+              <el-menu-item index="2"><el-icon><User/></el-icon>{{UserName}}</el-menu-item>
               <el-menu-item index="4" @click="dialogVisible = true">
                 退出登录
               </el-menu-item>
