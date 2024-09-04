@@ -1,13 +1,10 @@
 <template>
 <div>
-  {{name}}
+  <el-empty description="description" />
 </div>
 </template>
 
 <script>
-export default {
-  name: "FontSetting"
-}
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{name}}
+    <el-empty description="description" />
   </div>
 </template>
 

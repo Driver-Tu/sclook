@@ -1,7 +1,7 @@
 <template>
 <div>
   <div >
-    DayPunchCard
+    <el-empty description="description" />
   </div>
 </div>
 </template>

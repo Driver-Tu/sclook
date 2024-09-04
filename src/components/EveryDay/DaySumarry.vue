@@ -1,6 +1,6 @@
 <template>
 <div>
-  DaySumarry
+  <el-empty description="description" />
 </div>
 </template>
 

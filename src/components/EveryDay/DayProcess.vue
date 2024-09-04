@@ -1,6 +1,6 @@
 <template>
 <div>
-  DayProcess
+  <el-empty description="description" />
 </div>
 </template>
 

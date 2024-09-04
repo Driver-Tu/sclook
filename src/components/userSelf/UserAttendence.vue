@@ -1,6 +1,6 @@
 <template>
 <div>
-  UserAttendence
+  <el-empty description="description" />
 </div>
 </template>
 

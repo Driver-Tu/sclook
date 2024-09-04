@@ -1,6 +1,6 @@
 <template>
 <div>
-  wasteBin
+  <el-empty description="description" />
 </div>
 </template>
 

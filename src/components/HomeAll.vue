@@ -7,7 +7,7 @@
               background-color="#545c64"
               class="el-menu-vertical-demo"
               default-active="2"
-              :default-openeds="['1','25','45','65']"
+              :default-openeds="['1','10','25','65']"
               text-color="#fff"
               @open="handleOpen"
               @close="handleClose"
@@ -27,6 +27,7 @@
                 :default-active="activeIndex2"
                 class="el-menu-demo"
                 mode="horizontal"
+                width="1000px"
                 background-color="black"
                 text-color="#fff"
                 active-text-color="#ffd04b"
@@ -34,7 +35,7 @@
             >
               <el-menu-item index="1" style="font-size: 28px">富辰方舟欢迎您~</el-menu-item>
               <el-menu-item index="2"><el-icon><User/></el-icon>{{UserName}}</el-menu-item>
-              <el-menu-item index="4" @click="dialogVisible = true">
+              <el-menu-item index="3" @click="dialogVisible = true">
                 退出登录
               </el-menu-item>
               <el-dialog
@@ -52,7 +53,8 @@
               </el-dialog>
             </el-menu>
           </div></el-header>
-          <el-main><div class="main_content">
+          <el-main>
+            <div class="main_content">
             <router-view/>
           </div></el-main>
         </el-container>
@@ -79,6 +81,7 @@ const handleOpen = (key, keyPath) => {
 const handleClose = (key, keyPath) => {
   console.log(key, keyPath)
 }
+
 // 判断用户是否登录
 function Success(str){
   ElNotification({
@@ -144,11 +147,11 @@ const changeWebAll=(str)=>{
   router.push("/HomeAll"+str)
 }
 getMenuData()
-
+router.push("/HomeAll/user/staffdetail")
 </script>
 <style scoped>
 .main_content{
-  border-bottom: 1px solid #545c64;
+  border: 1px solid #545c64;
   border-radius: 0;
 }
 </style>

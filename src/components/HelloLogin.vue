@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page">
+  <div class="login-page" >
     <div class="login-form" style="background-color: whitesmoke;">
       <el-button round @click="ChangeWeb" style="background-color: rgba(224,204,28,0.15)">返回首页</el-button>
       <h2 class="login-title" style="color: blue;">{{ title }}</h2>

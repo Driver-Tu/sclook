@@ -4,7 +4,7 @@
         <el-aside width="300px" height="1000px">
           <div class="container" >
           <div style="border: black 2px solid; background-color: azure;margin-left: 60px">
-            <h3 style="background-color: #f3ef97;text-align: center">员工头像</h3>
+            <h3 style="background-color: red;text-align: center">奋斗青春</h3>
             <img :src="data.avatarUrl" alt="" style="width:200px;margin-left: 20px">
             <el-button round style="margin-top:10px;background-color:blanchedalmond;float: right"><el-icon><EditPen /></el-icon></el-button>
           </div>
