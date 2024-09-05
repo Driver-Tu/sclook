@@ -1,7 +1,7 @@
 <template>
     <div class="common-layout">
       <el-container>
-        <el-aside width="200px"><div class="left_menu">
+        <el-aside width="200px" style="float: left"><div class="left_menu">
           <el-menu
               active-text-color="#ffd04b"
               background-color="#545c64"
@@ -12,45 +12,44 @@
               @open="handleOpen"
               @close="handleClose"
           >
-            <el-sub-menu v-for="item in data" :index="String(item.menuId)" :key="String(item.menuId)">
-              <template #title>
-                <el-icon><Location /></el-icon>{{item.menuName}}
+            <el-menu-item index="1" style="font-size: 28px">富辰方舟</el-menu-item>
+            <el-menu-item index="2"><el-icon><User/></el-icon>{{UserName}}</el-menu-item>
+            <el-menu-item index="3" @click="dialogVisible = true">
+              退出登录
+            </el-menu-item>
+            <el-dialog
+                v-model="dialogVisible"
+                title="提示"
+                width="500"
+            >
+              <span>您是否要退出登录？</span>
+              <template #footer>
+                <div class="dialog-footer">
+                  <el-button @click="dialogVisible = false">不退出</el-button>
+                  <el-button type="primary" @click="UserLogin">确定退出</el-button>
+                </div>
               </template>
-              <el-menu-item v-for="i in item.children" :key="i.menuId" :index="String(i.menuId)" @click="changeWebAll(i.menuRouter)">{{ i.menuName}}</el-menu-item>
-            </el-sub-menu>
+            </el-dialog>
           </el-menu>
-
         </div></el-aside>
         <el-container>
-          <el-header><div class="head_menu">
+          <el-header><div class="head_menu" style="width: 100%">
             <el-menu
                 :default-active="activeIndex2"
                 class="el-menu-demo"
                 mode="horizontal"
                 width="1000px"
-                background-color="black"
+                background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b"
                 @select="handleSelect"
             >
-              <el-menu-item index="1" style="font-size: 28px">富辰方舟欢迎您~</el-menu-item>
-              <el-menu-item index="2"><el-icon><User/></el-icon>{{UserName}}</el-menu-item>
-              <el-menu-item index="3" @click="dialogVisible = true">
-                退出登录
-              </el-menu-item>
-              <el-dialog
-                  v-model="dialogVisible"
-                  title="提示"
-                  width="500"
-              >
-                <span>您是否要退出登录？</span>
-                <template #footer>
-                  <div class="dialog-footer">
-                    <el-button @click="dialogVisible = false">不退出</el-button>
-                    <el-button type="primary" @click="UserLogin">确定退出</el-button>
-                  </div>
+              <el-sub-menu v-for="item in data" :index="String(item.menuId)" :key="String(item.menuId)">
+                <template #title>
+                  <el-icon><Location /></el-icon>{{item.menuName}}
                 </template>
-              </el-dialog>
+                <el-menu-item v-for="i in item.children" :key="i.menuId" :index="String(i.menuId)" @click="changeWebAll(i.menuRouter)">{{ i.menuName}}</el-menu-item>
+              </el-sub-menu>
             </el-menu>
           </div></el-header>
           <el-main>
@@ -153,5 +152,25 @@ router.push("/HomeAll/user/staffdetail")
 .main_content{
   border: 1px solid #545c64;
   border-radius: 0;
+}
+.el-aside {
+  margin: 0;
+  padding: 0;
+}
+
+.el-header {
+  margin: 0;
+  padding: 0;
+}
+
+.el-main {
+  margin: 0;
+  padding: 0;
+}
+/* 响应式设计 */
+@media (max-width: 375px) {
+  el-menu-vertical-demo {
+    max-width: 200px; /* 在小屏幕上变得更窄 */
+  }
 }
 </style>

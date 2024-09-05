@@ -1,4 +1,13 @@
 <template>
+  <div style="background-color: whitesmoke">
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item :to="
+           { path: '/HomeAll/user/staffdetail' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>
+        个人信息
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
     <div class="common-layout" style="background-color: #f3ef97">
       <el-container>
         <el-aside width="300px" height="1000px">
@@ -10,8 +19,8 @@
           </div>
         </div>
         </el-aside>
-        <el-main>
-          <div style="background-color: azure;border: #333333 2px solid; width: 666px;margin-left: 100px">
+        <el-main style="max-width: 70%">
+          <div style="background-color: azure;border: #333333 2px solid; width: 555px;margin-left: 100px">
             <div>
               <h3 style="background-color: #f3ef97;text-align: center">{{ title }}</h3>
             </div>

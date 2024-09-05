@@ -41,6 +41,19 @@ const routes=[
             {//日常流程
                 path:"/HomeAll/normal/process",
                 component:()=>import("../components/EveryDay/DayProcess")
+            },
+            {//成员管理
+                path:"/HomeAll/admin/memberControl",
+                component:()=>import("../components/Depart/MemberControl")
+            },{//部门管理
+                path:"/HomeAll/admin/dept",
+                component:()=>import("../components/Depart/Dept")
+            },{//角色管理
+                path:"/HomeAll/admin/role",
+                component:()=>import("../components/Depart/AllPControl")
+            },{//邮箱管理
+                path:"/HomeAll/admin/mail",
+                component:()=>import("../components/Depart/MailControl")
             }
         ]
     },
