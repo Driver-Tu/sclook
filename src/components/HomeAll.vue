@@ -105,12 +105,12 @@ const isExit=ref(false)
 //退出登录
 const ExitLogin=()=>{
   isExit.value=true;
-  axios.get("http://localhost:10086/StaffOperations/staffExit?isExit="+isExit.value,{headers:{
-      "Authorization-Token":window.localStorage.getItem("Authorization-Token")
+  axios.get("http://localhost:8088/user/logout",{headers:{
+      "satoken":window.localStorage.getItem("satoken")
     }})
       .then(function (response){
         if(response.data.code==="200"){
-          localStorage.removeItem("Authorization-Token")
+          localStorage.removeItem("satoken")
           Success("退出成功")
           router.push("/")
         }else {
@@ -123,10 +123,10 @@ const ExitLogin=()=>{
 //用户菜单栏
 let data=ref([])
 const getMenuData=()=>{
-  if (localStorage.getItem("Authorization-Token")!==null){
-    console.log('token:'+window.localStorage.getItem("Authorization-Token"))
+  if (localStorage.getItem("satoken")!==null){
+    console.log('token:'+window.localStorage.getItem("satoken"))
   axios.get("http://localhost:10087/cms/menu/",{headers:{
-      "Authorization-Token":window.localStorage.getItem("Authorization-Token")
+      "satoken":window.localStorage.getItem("satoken")
     }}).then(function (response){
     if(response.data.code==='200'){
       data.value=response.data.data

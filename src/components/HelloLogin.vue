@@ -149,12 +149,12 @@ const CaptchaTelephoneForLogin = () => {
 //账号登陆
 const handleLogin = () => {
   if(loginAll.telephone!=null&&loginAll.userPassword!=null){
-    axios.post ("http://localhost:10088/authentication/signON?staffAccount="+loginAll.telephone+"&password="+loginAll.userPassword)
+    axios.post ("http://localhost:8088/user/login?empNum="+loginAll.telephone+"&password="+loginAll.userPassword)
         .then(function (response) {
           if (response.data.code === "200") {
-            localStorage.setItem("Authorization-Token", response.data.data.token);
+            localStorage.setItem("satoken", response.data.data.tokenValue);
             localStorage.setItem("UserName", response.data.data.staffName)
-            Success(response.data.message);
+            Success(response.data.msg);
             router.push("/HomeAll")
           } else if(response.data.code==="30012"){
             dialogVisible.value=true;
